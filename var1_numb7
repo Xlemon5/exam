@@ -1,0 +1,131 @@
+#include <iostream>
+#include <iomanip>
+using namespace std;
+
+
+int main() 
+{
+	setlocale(LC_ALL, "Russian");
+
+	int m = 0, n = 0;
+
+	cout << "Введите размерность массива: " << '\n';
+	cin >> m >> n;
+	cout << '\n';
+
+	// создание динамического массива
+	int** x = new int* [m];
+	for (int i = 0; i < m; ++i) 
+	{
+		x[i] = new int[n];
+	}
+
+
+	// заполнение массива
+
+	for (int i = 0; i < m; ++i)
+	{
+		for (int j = 0; j < n; ++j)
+		{
+			cin >> x[i][j];
+		}
+	}
+
+	cout << '\n';
+	
+	// Ввывод начальной матрицы
+
+	cout << "Начальная матрица: " << '\n';
+
+	for (int i = 0; i < m; ++i)
+	{
+		for (int j = 0; j < n; ++j)
+		{
+			cout << setw(3) << x[i][j] << ' ';
+		}
+		cout << '\n';
+	}
+
+	cout << '\n';
+
+	// поиск минимального
+
+	int minel = x[0][0];
+	int maxel = x[0][0];
+
+	int flag_minel = 0;
+	int flag_maxel = 0;
+
+	for (int i = 0; i < m; ++i)
+	{
+		for (int j = 0; j < n; ++j)
+		{
+			if (x[i][j] < minel)
+			{
+				flag_minel = i;
+				minel = x[i][j];
+			}
+			else if (x[i][j] > maxel)
+			{	
+				flag_maxel = i;
+				maxel = x[i][j];
+			}
+		}
+	}
+
+	cout << "Минимальный элемент в строке: " << flag_minel << '\n';
+	cout << "Максимальный элемент в строке: " << flag_maxel << '\n';
+
+	// Обмен местами
+
+	int** new_x = new int* [m];
+	for (int i = 0; i < m; ++i) 
+	{
+		new_x[i] = new int [n];
+	}
+
+
+	for (int i = 0; i < m; ++i) 
+	{
+		for (int j = 0; j < n; ++j) 
+		{
+			new_x[i][j] = x[i][j];
+		}
+	}
+
+
+	for (int j = 0; j < n; ++j)
+	{
+		new_x[flag_minel][j] = x[flag_maxel][j];
+		new_x[flag_maxel][j] = x[flag_minel][j];
+	}
+
+	// Вывод измененной матрицы 
+
+	cout << '\n';
+
+	for (int i = 0; i < m; ++i)
+	{
+		for (int j = 0; j < n; ++j)
+		{
+			cout << setw(3) << new_x[i][j] << ' ';
+		}
+		cout << '\n';
+	}
+
+	// удаление массива
+	for (int i = 0; i < m; ++i)
+	{
+		delete[] x[i];
+	}
+	delete[] x;
+
+	for (int i = 0; i < m; ++i)
+	{
+		delete[] new_x[i];
+	}
+	delete[] new_x;
+
+	system("pause");
+	return 0;
+}
