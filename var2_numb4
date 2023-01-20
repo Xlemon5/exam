@@ -1,0 +1,30 @@
+#include <iostream>
+#include <iomanip>
+using namespace std;
+
+
+int main()
+{
+    setlocale(LC_ALL, "Russian");
+    
+    int k = 0, x = 0, numb = 0;
+
+    cout << "Введите число k и х: " << '\n';
+    cin >> k >> x;
+
+    int i = 2;
+
+    numb = (5 - x) * (5 - x);
+
+    while (i <= k) 
+    {
+        numb = (numb - i * x) * (numb - i * x);
+        i += 1;
+    }
+
+    numb = x * numb;
+
+    cout << "РЕЗУЛЬТАТ: " << numb << '\n';
+
+    return 0;
+}
