@@ -1,0 +1,133 @@
+#include <iostream>
+#include <iomanip>
+using namespace std;
+
+
+int main()
+{
+    setlocale(LC_ALL, "Russian");
+
+    // создание матрицы А
+
+    int m = 0, n = 0;
+
+    cout << "Введите размерность матрицы А: " << '\n';
+    cin >> m >> n;
+
+
+    int** A = new int* [m];
+    for (int i = 0; i < m; ++i)
+    {
+        A[i] = new int[n];
+    }
+
+    cout << '\n';
+
+    cout << "Введите данные: " << '\n';
+
+    for (int i = 0; i < m; ++i)
+    {
+        for (int j = 0; j < n; ++j)
+        {
+            cin >> *(*(A + i) + j);
+            
+        }
+    }
+    cout << '\n';
+
+    // ВЫВОД
+
+    cout << "Начальная матрица: " << '\n';
+    for (int i = 0; i < m; ++i)
+    {
+        for (int j = 0; j < n; ++j)
+        {
+            cout << setw(3) << *(*(A + i) + j) << ' ';
+        }
+        cout << '\n';
+    }
+    cout << '\n';
+    // РАСЧЕТЫ
+
+    double average_all_matr = 0;
+    double sum_all_matr = 0;
+
+    for (int i = 0; i < m; ++i)
+    {
+        for (int j = 0; j < n; ++j)
+        {
+            sum_all_matr += *(*(A + i) + j);
+        }
+    }
+    average_all_matr = sum_all_matr / (m * n);
+
+    cout << "Среднее арифметическое всей матрицы: " << average_all_matr << '\n';
+    cout << '\n';
+
+    //////////////////////////////////////////////////////
+    double min_av_razn = sum_all_matr;
+    double sum_row = 0;
+    int flag = 0;
+
+    for (int i = 0; i < m; ++i)
+    {
+        for (int j = 0; j < n; ++j)
+        {
+            sum_row += *(*(A + i) + j);
+        }
+
+        if (abs((sum_row / m) - average_all_matr) < min_av_razn)
+        {
+            flag = i;
+            min_av_razn = abs((sum_row / m) - average_all_matr);
+        }
+        sum_row = 0;
+    }
+
+    // создание измененной матрицы
+    int new_m = m - 1;
+
+    int** new_A = new int* [new_m];
+    for (int i = 0; i < new_m; ++i)
+    {
+        new_A[i] = new int[n];
+    }
+
+    // перекидываем данные
+    int k = 0;
+    for (int i = 0; i < m; ++i)
+    {
+        if (i != flag)
+        {
+            for (int j = 0; j < n; ++j)
+            {
+                *(*(new_A + k) + j) = *(*(A + i) + j);
+            }
+            k += 1;
+        }
+    }
+
+    // ВЫВОД
+
+    cout << "Новая матрица: " << '\n';
+
+    for (int i = 0; i < new_m; ++i)
+    {
+        for (int j = 0; j < n; ++j)
+        {
+            cout << setw(3) << *(*(new_A + i) + j) << ' ';
+        }
+
+        cout << '\n';
+    }
+
+    // удаление матрицы А
+
+    for (int i = 0; i < m; ++i)
+    {
+        delete[] A[i];
+    }
+    delete[] A;
+
+    return 0;
+}
